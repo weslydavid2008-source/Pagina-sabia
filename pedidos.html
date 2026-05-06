@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pedidos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="admin-box">
+      <div class="avatar" id="adminAvatar">AD</div>
+
+      <div class="admin-info">
+        <h3 id="adminName">Administrador</h3>
+        <p id="adminEmail">Cargando...</p>
+      </div>
+    </div>
+
+    <button class="profile-btn" id="openAdminProfile">
+      Ver Perfil
+    </button>
+
+    <nav class="menu">
+      <a href="index.html">⌂ Inicio</a>
+      <a href="productos.html">▣ Productos</a>
+
+      <a href="pedidos.html" class="active">
+        🛒 Pedidos
+        <span class="badge" id="sidebarOrders">0</span>
+      </a>
+
+      <a href="ofertas.html">◇ Ofertas</a>
+
+      <a href="clientes.html">
+        👥 Clientes
+        <span class="badge" id="sidebarClients">0</span>
+      </a>
+
+      <a href="estadisticas.html">▥ Estadísticas</a>
+      <a href="inventario.html">✤ Inventario</a>
+      <a href="compras.html">🧾 Compras</a>
+      <a href="configuracion.html">⚙ Configuración</a>
+    </nav>
+
+    <a href="store-super-joven/index.html" class="logout-btn">Salir</a>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="page-header">
+      <div class="title-box">
+        <div class="title-icon">🛒</div>
+
+        <div>
+          <h1>Pedidos</h1>
+          <p>Gestiona los pedidos de tus clientes</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="orders-summary-grid">
+      <article class="order-summary-card">
+        <p>Total</p>
+        <h2 id="totalOrders">0</h2>
+      </article>
+
+      <article class="order-summary-card">
+        <p>Pendientes</p>
+        <h2 class="yellow-text" id="pendingOrders">0</h2>
+      </article>
+
+      <article class="order-summary-card">
+        <p>En Camino</p>
+        <h2 class="blue-text" id="shippingOrders">0</h2>
+      </article>
+
+      <article class="order-summary-card">
+        <p>Entregados</p>
+        <h2 class="green-text" id="deliveredOrders">0</h2>
+      </article>
+
+      <article class="order-summary-card">
+        <p>Cancelados</p>
+        <h2 class="red-text" id="cancelledOrders">0</h2>
+      </article>
+    </section>
+
+    <section class="filter-panel">
+      <div class="search-wide">
+        <span>🔍</span>
+        <input 
+          type="text" 
+          id="orderSearch" 
+          placeholder="Buscar por cliente, teléfono o número de pedido..."
+        />
+      </div>
+
+      <div class="filter-box">
+        <span>⚱</span>
+
+        <select id="statusFilter">
+          <option value="all">Todos los estados</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="en_camino">En camino</option>
+          <option value="entregado">Entregado</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Lista de Pedidos (<span id="ordersTotalLabel">0</span>)</h2>
+
+      <div class="table-wrapper products-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Pedido</th>
+              <th>Cliente</th>
+              <th>Productos</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody id="ordersTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal order-modal">
+      <button class="close-modal" id="closeOrderModal">×</button>
+
+      <h2 id="orderModalTitle">Detalle del Pedido</h2>
+      <p class="modal-subtitle">Información completa del pedido</p>
+
+      <div class="modal-section">
+        <h3>👤 Información del Cliente</h3>
+
+        <div class="client-info-box">
+          <h4 id="modalClientName">Cliente</h4>
+          <p id="modalClientPhone">Teléfono</p>
+          <p id="modalClientAddress">Dirección</p>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <h3>▣ Productos</h3>
+        <div class="order-products-list" id="modalProductsList"></div>
+      </div>
+
+      <div class="order-total-row">
+        <span>Total</span>
+        <strong id="modalOrderTotal">$0</strong>
+      </div>
+
+      <div class="order-info-row">
+        <span>📅 Fecha</span>
+        <strong id="modalOrderDate">-</strong>
+      </div>
+
+      <div class="order-info-row">
+        <span>Estado</span>
+        <span id="modalOrderStatusBadge"></span>
+      </div>
+
+      <hr class="modal-divider" />
+
+      <label>
+        Cambiar estado del pedido:
+        <select id="modalStatusSelect">
+          <option value="pendiente">Pendiente</option>
+          <option value="en_camino">En camino</option>
+          <option value="entregado">Entregado</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="adminProfileModal">
+    <div class="modal admin-profile-modal">
+      <button class="close-modal" id="closeAdminProfile">×</button>
+
+      <div class="admin-profile-header">
+        <div class="avatar admin-profile-avatar" id="adminProfileAvatar">AD</div>
+
+        <div>
+          <h2 id="adminProfileFullName">Administrador</h2>
+          <p id="adminProfileRole">Administrador</p>
+        </div>
+      </div>
+
+      <p class="modal-subtitle">
+        Información personal de la cuenta que está usando el panel.
+      </p>
+
+      <div class="admin-profile-grid">
+        <label>
+          Nombre
+          <input type="text" id="adminProfileName" disabled>
+        </label>
+
+        <label>
+          Apellido
+          <input type="text" id="adminProfileLastName" disabled>
+        </label>
+
+        <label>
+          Documento
+          <input type="text" id="adminProfileDocument" disabled>
+        </label>
+
+        <label>
+          Correo
+          <input type="email" id="adminProfileEmail" disabled>
+        </label>
+
+        <label>
+          Teléfono
+          <input type="text" id="adminProfilePhone" disabled>
+        </label>
+
+        <label>
+          Género
+          <input type="text" id="adminProfileGender" disabled>
+        </label>
+
+        <label>
+          Barrio
+          <input type="text" id="adminProfileNeighborhood" disabled>
+        </label>
+
+        <label>
+          Rol
+          <input type="text" id="adminProfileRoleInput" disabled>
+        </label>
+
+        <label class="admin-profile-full">
+          Dirección
+          <textarea id="adminProfileAddress" rows="4" disabled></textarea>
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" id="closeAdminProfileBtn">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin-session.js"></script>
+  <script src="pedidos.js"></script>
+</body>
+</html>

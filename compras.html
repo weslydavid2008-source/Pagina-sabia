@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compras</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="admin-box">
+      <div class="avatar" id="adminAvatar">AD</div>
+
+      <div class="admin-info">
+        <h3 id="adminName">Administrador</h3>
+        <p id="adminEmail">Cargando...</p>
+      </div>
+    </div>
+
+    <button class="profile-btn" id="openAdminProfile">
+      Ver Perfil
+    </button>
+
+    <nav class="menu">
+      <a href="index.html">⌂ Inicio</a>
+      <a href="productos.html">▣ Productos</a>
+      <a href="pedidos.html">
+        🛒 Pedidos
+        <span class="badge" id="sidebarOrders">0</span>
+      </a>
+      <a href="ofertas.html">◇ Ofertas</a>
+      <a href="clientes.html">
+        👥 Clientes
+        <span class="badge" id="sidebarClients">0</span>
+      </a>
+      <a href="estadisticas.html">▥ Estadísticas</a>
+      <a href="inventario.html">✤ Inventario</a>
+      <a href="compras.html" class="active">🧾 Compras</a>
+      <a href="configuracion.html">⚙ Configuración</a>
+    </nav>
+
+    <a href="store-super-joven/index.html" class="logout-btn">Salir</a>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="page-header">
+      <div class="title-box">
+        <div class="title-icon">🧾</div>
+        <div>
+          <h1>Compras</h1>
+          <p>Gestiona las compras realizadas a tus proveedores</p>
+        </div>
+      </div>
+
+      <button class="primary-btn" id="openPurchaseModal">
+        + Nueva Compra
+      </button>
+    </header>
+
+    <section class="purchases-summary-grid">
+      <article class="purchase-summary-card">
+        <div class="purchase-summary-icon green-bg">🧾</div>
+        <div>
+          <p>Total Compras</p>
+          <h2 id="purchaseTotalCount">0</h2>
+        </div>
+      </article>
+
+      <article class="purchase-summary-card">
+        <div class="purchase-summary-icon yellow-bg">⏳</div>
+        <div>
+          <p>Pendientes</p>
+          <h2 class="yellow-text" id="purchasePendingCount">0</h2>
+        </div>
+      </article>
+
+      <article class="purchase-summary-card">
+        <div class="purchase-summary-icon green-bg">✓</div>
+        <div>
+          <p>Recibidas</p>
+          <h2 class="green-text" id="purchaseReceivedCount">0</h2>
+        </div>
+      </article>
+
+      <article class="purchase-summary-card">
+        <div class="purchase-summary-icon red-bg">✕</div>
+        <div>
+          <p>Canceladas</p>
+          <h2 class="red-text" id="purchaseCancelledCount">0</h2>
+        </div>
+      </article>
+
+      <article class="purchase-summary-card">
+        <div class="purchase-summary-icon blue-bg">$</div>
+        <div>
+          <p>Total Invertido</p>
+          <h2 class="blue-text" id="purchaseTotalAmount">$0.00</h2>
+        </div>
+      </article>
+    </section>
+
+    <section class="filter-panel">
+      <div class="search-wide">
+        <span>🔍</span>
+        <input
+          type="text"
+          id="purchaseSearch"
+          placeholder="Buscar por proveedor o referencia..."
+        />
+      </div>
+
+      <div class="filter-box">
+        <span>⚱</span>
+        <select id="purchaseStatusFilter">
+          <option value="all">Todos los estados</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="recibida">Recibida</option>
+          <option value="parcial">Parcial</option>
+          <option value="cancelada">Cancelada</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Lista de Compras (<span id="purchaseListCount">0</span>)</h2>
+
+      <div class="table-wrapper products-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Compra</th>
+              <th>Proveedor</th>
+              <th>Productos</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="purchasesTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="modal-overlay" id="purchaseModal">
+    <div class="modal purchase-modal">
+      <button class="close-modal" id="closePurchaseModal">×</button>
+
+      <h2 id="purchaseModalTitle">Nueva Compra</h2>
+      <p class="modal-subtitle">Selecciona proveedor y productos de compra</p>
+
+      <form id="purchaseForm">
+        <div class="purchase-form-grid">
+          <label>
+            Proveedor
+            <select id="supplierSelect" required>
+              <option value="">Selecciona un proveedor</option>
+            </select>
+          </label>
+
+          <label>
+            Referencia / Factura
+            <input type="text" id="purchaseReference" required />
+          </label>
+
+          <label>
+            Fecha
+            <input type="date" id="purchaseDate" required />
+          </label>
+
+          <label>
+            Estado
+            <select id="purchaseStatus" required>
+              <option value="pendiente">Pendiente</option>
+              <option value="recibida">Recibida</option>
+              <option value="parcial">Parcial</option>
+              <option value="cancelada">Cancelada</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="full-label">
+          Observaciones
+          <textarea id="purchaseNotes" rows="3" placeholder="Notas adicionales"></textarea>
+        </label>
+
+        <div class="purchase-items-header">
+          <h3>Productos de la compra</h3>
+          <button type="button" class="small-primary" id="addPurchaseItem">
+            + Añadir producto
+          </button>
+        </div>
+
+        <div class="purchase-items-builder" id="purchaseItemsContainer"></div>
+
+        <div class="purchase-total-box">
+          <span>Total de la compra</span>
+          <strong id="purchaseModalTotal">$0.00</strong>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="secondary-btn" id="cancelPurchaseModal">
+            Cancelar
+          </button>
+          <button type="submit" class="primary-btn">
+            Guardar Compra
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="purchaseDetailModal">
+    <div class="modal purchase-detail-modal">
+      <button class="close-modal" id="closePurchaseDetailModal">×</button>
+
+      <h2>Detalle de la Compra</h2>
+      <p class="modal-subtitle">Información completa de la compra al proveedor</p>
+
+      <div class="purchase-detail-grid">
+        <div>
+          <p>Proveedor</p>
+          <h3 id="detailSupplierName">-</h3>
+        </div>
+
+        <div>
+          <p>Referencia</p>
+          <h3 id="detailReference">-</h3>
+        </div>
+
+        <div>
+          <p>Fecha</p>
+          <h3 id="detailPurchaseDate">-</h3>
+        </div>
+
+        <div>
+          <p>Estado</p>
+          <div id="detailStatusBox"></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <h3>Productos</h3>
+        <div class="purchase-items-table" id="purchaseDetailItems"></div>
+      </div>
+
+      <div class="purchase-detail-notes">
+        <h3>Observaciones</h3>
+        <p id="detailPurchaseNotes">Sin observaciones.</p>
+      </div>
+
+      <div class="purchase-detail-total">
+        <span>Total</span>
+        <strong id="detailPurchaseTotal">$0.00</strong>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay" id="adminProfileModal">
+  <div class="modal admin-profile-modal">
+    <button class="close-modal" id="closeAdminProfile">×</button>
+
+    <div class="admin-profile-header">
+      <div class="avatar admin-profile-avatar" id="adminProfileAvatar">AD</div>
+
+      <div>
+        <h2 id="adminProfileFullName">Administrador</h2>
+        <p id="adminProfileRole">Administrador</p>
+      </div>
+    </div>
+
+    <p class="modal-subtitle">
+      Información personal de la cuenta que está usando el panel.
+    </p>
+
+    <div class="admin-profile-grid">
+      <label>
+        Nombre
+        <input type="text" id="adminProfileName" disabled>
+      </label>
+
+      <label>
+        Apellido
+        <input type="text" id="adminProfileLastName" disabled>
+      </label>
+
+      <label>
+        Documento
+        <input type="text" id="adminProfileDocument" disabled>
+      </label>
+
+      <label>
+        Correo
+        <input type="email" id="adminProfileEmail" disabled>
+      </label>
+
+      <label>
+        Teléfono
+        <input type="text" id="adminProfilePhone" disabled>
+      </label>
+
+      <label>
+        Género
+        <input type="text" id="adminProfileGender" disabled>
+      </label>
+
+      <label>
+        Barrio
+        <input type="text" id="adminProfileNeighborhood" disabled>
+      </label>
+
+      <label>
+        Rol
+        <input type="text" id="adminProfileRoleInput" disabled>
+      </label>
+
+      <label class="admin-profile-full">
+        Dirección
+        <textarea id="adminProfileAddress" rows="4" disabled></textarea>
+      </label>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="secondary-btn" id="closeAdminProfileBtn">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>
+  <script src="admin-session.js"></script>
+  <script src="compras.js"></script>
+</body>
+</html>

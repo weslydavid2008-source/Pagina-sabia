@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Administrador</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="admin-home">
+
+  <aside class="sidebar">
+    <div class="admin-box">
+      <div class="avatar" id="adminAvatar">AD</div>
+
+      <div class="admin-info">
+        <h3 id="adminName">Administrador</h3>
+        <p id="adminEmail">Cargando...</p>
+      </div>
+    </div>
+
+    <button class="profile-btn" id="openAdminProfile">
+      Ver Perfil
+    </button>
+
+    <nav class="menu">
+      <a href="index.html" class="active">⌂ Inicio</a>
+
+      <a href="productos.html">▣ Productos</a>
+
+      <a href="pedidos.html">
+        🛒 Pedidos
+        <span class="badge" id="sidebarOrders">0</span>
+      </a>
+
+      <a href="ofertas.html">◇ Ofertas</a>
+
+      <a href="clientes.html">
+        👥 Clientes
+        <span class="badge" id="sidebarClients">0</span>
+      </a>
+
+      <a href="estadisticas.html">▥ Estadísticas</a>
+      <a href="inventario.html">✤ Inventario</a>
+      <a href="compras.html">🧾 Compras</a>
+      <a href="configuracion.html">⚙ Configuración</a>
+    </nav>
+
+    <a href="store-super-joven/index.html" class="logout-btn">Salir</a>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="top-header dashboard-top">
+      <div class="dashboard-title-box">
+        <span class="dashboard-title-icon">⌂</span>
+        <div>
+          <h1>Panel de Administrador</h1>
+          <p>Resumen general de ventas, pedidos, productos y clientes.</p>
+        </div>
+      </div>
+
+      <div class="dashboard-header-actions">
+        <button type="button" class="secondary-btn dashboard-refresh-btn" id="refreshDashboard">
+          Actualizar
+        </button>
+
+        <a href="store-super-joven/index.html" class="primary-btn dashboard-store-btn">
+          Ver Tienda
+        </a>
+      </div>
+    </header>
+
+    <section class="dashboard-hero-card">
+      <div>
+        <p class="dashboard-kicker">Inicio</p>
+        <h2>Bienvenido al control de Store Super Joven</h2>
+        <p>Desde aquí puedes revisar actividad reciente, productos disponibles, ofertas activas y pedidos de clientes.</p>
+      </div>
+
+      <div class="dashboard-search-card">
+        <span>🔍</span>
+        <input
+          type="text"
+          id="globalSearch"
+          placeholder="Buscar productos por nombre, categoría o estado..."
+        />
+      </div>
+    </section>
+
+    <section class="stats-grid dashboard-stats-grid">
+      <article class="stat-card dashboard-stat-card">
+        <div>
+          <p>PEDIDOS HOY</p>
+          <h2 id="ordersToday">0</h2>
+          <small>Total de pedidos creados hoy</small>
+        </div>
+
+        <div class="stat-icon green" id="ordersTodayIcon">🛒</div>
+      </article>
+
+      <article class="stat-card dashboard-stat-card">
+        <div>
+          <p>VENTAS HOY</p>
+          <h2 id="salesToday">$0</h2>
+          <small>Solo pedidos entregados</small>
+        </div>
+
+        <div class="stat-icon green" id="salesTodayIcon">$</div>
+      </article>
+
+      <article class="stat-card dashboard-stat-card">
+        <div>
+          <p>PRODUCTOS</p>
+          <h2 class="danger" id="totalProducts">0</h2>
+          <small>Registrados en inventario</small>
+        </div>
+
+        <div class="stat-icon red" id="productsIcon">▣</div>
+      </article>
+
+      <article class="stat-card dashboard-stat-card">
+        <div>
+          <p>CLIENTES</p>
+          <h2 id="totalClients">0</h2>
+          <small>Clientes guardados</small>
+        </div>
+
+        <div class="stat-icon green" id="clientsIcon">👥</div>
+      </article>
+    </section>
+
+    <section class="dashboard-quick-grid">
+      <a href="productos.html" class="quick-card">
+        <span>▣</span>
+        <div>
+          <strong>Productos</strong>
+          <small>Crear, editar y revisar stock</small>
+        </div>
+      </a>
+
+      <a href="pedidos.html" class="quick-card">
+        <span>🛒</span>
+        <div>
+          <strong>Pedidos</strong>
+          <small>Cambiar estados y revisar entregas</small>
+        </div>
+      </a>
+
+      <a href="ofertas.html" class="quick-card">
+        <span>◇</span>
+        <div>
+          <strong>Ofertas</strong>
+          <small>Administrar descuentos activos</small>
+        </div>
+      </a>
+
+      <a href="compras.html" class="quick-card">
+        <span>🧾</span>
+        <div>
+          <strong>Compras</strong>
+          <small>Registrar compras a proveedores</small>
+        </div>
+      </a>
+    </section>
+
+    <section class="panel dashboard-products-panel">
+      <div class="panel-header dashboard-panel-header">
+        <div>
+          <h2>Gestión rápida de Productos</h2>
+          <p>Consulta productos recientes y entra al módulo completo para editar.</p>
+        </div>
+
+        <a class="primary-btn" id="openAddProduct" href="productos.html">
+          + Añadir Producto
+        </a>
+      </div>
+
+      <div class="table-wrapper dashboard-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody id="dashboardProductsTable"></tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <p id="productsCounter">Mostrando 0 de 0 productos</p>
+
+        <div class="pagination">
+          <button type="button" id="prevProductsPage">‹</button>
+          <span id="productsPageNumber">1</span>
+          <button type="button" id="nextProductsPage">›</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="bottom-grid dashboard-bottom-grid">
+
+      <article class="panel small-panel dashboard-list-panel">
+        <div class="panel-header compact">
+          <h2>Ofertas Activas</h2>
+          <a href="ofertas.html" class="small-primary">Ver Todas</a>
+        </div>
+
+        <div id="activeOffersList" class="dashboard-list-empty">
+          Cargando ofertas...
+        </div>
+      </article>
+
+      <article class="panel small-panel dashboard-list-panel">
+        <div class="panel-header compact">
+          <h2>Pedidos Recientes</h2>
+          <a href="pedidos.html" class="small-primary">Ver Todos</a>
+        </div>
+
+        <div class="table-wrapper dashboard-mini-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+
+            <tbody id="recentOrdersTable"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel small-panel dashboard-list-panel">
+        <div class="panel-header compact">
+          <h2>Ventas Entregadas</h2>
+
+          <select id="salesRange">
+            <option value="7">Últimos 7 días</option>
+            <option value="30">Últimos 30 días</option>
+            <option value="month">Este mes</option>
+          </select>
+        </div>
+
+        <div class="chart-box dashboard-chart-box" id="salesChart"></div>
+      </article>
+
+    </section>
+
+    <section class="panel dashboard-stock-panel">
+      <div class="panel-header compact">
+        <h2>Alertas de inventario</h2>
+        <a href="inventario.html" class="small-primary">Ver Inventario</a>
+      </div>
+
+      <div id="lowStockList" class="dashboard-stock-list">
+        Cargando inventario...
+      </div>
+    </section>
+
+  </main>
+
+  <div class="modal-overlay" id="adminProfileModal">
+    <div class="modal admin-profile-modal">
+      <button class="close-modal" id="closeAdminProfile">×</button>
+
+      <div class="admin-profile-header">
+        <div class="avatar admin-profile-avatar" id="adminProfileAvatar">AD</div>
+
+        <div>
+          <h2 id="adminProfileFullName">Administrador</h2>
+          <p id="adminProfileRole">Administrador</p>
+        </div>
+      </div>
+
+      <p class="modal-subtitle">
+        Información personal de la cuenta que está usando el panel.
+      </p>
+
+      <div class="admin-profile-grid">
+        <label>
+          Nombre
+          <input type="text" id="adminProfileName" disabled>
+        </label>
+
+        <label>
+          Apellido
+          <input type="text" id="adminProfileLastName" disabled>
+        </label>
+
+        <label>
+          Documento
+          <input type="text" id="adminProfileDocument" disabled>
+        </label>
+
+        <label>
+          Correo
+          <input type="email" id="adminProfileEmail" disabled>
+        </label>
+
+        <label>
+          Teléfono
+          <input type="text" id="adminProfilePhone" disabled>
+        </label>
+
+        <label>
+          Género
+          <input type="text" id="adminProfileGender" disabled>
+        </label>
+
+        <label>
+          Barrio
+          <input type="text" id="adminProfileNeighborhood" disabled>
+        </label>
+
+        <label>
+          Rol
+          <input type="text" id="adminProfileRoleInput" disabled>
+        </label>
+
+        <label class="admin-profile-full">
+          Dirección
+          <textarea id="adminProfileAddress" rows="4" disabled></textarea>
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" id="closeAdminProfileBtn">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin-session.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

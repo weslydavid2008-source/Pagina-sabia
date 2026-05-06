@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Productos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="admin-box">
+      <div class="avatar" id="adminAvatar">AD</div>
+
+      <div class="admin-info">
+        <h3 id="adminName">Administrador</h3>
+        <p id="adminEmail">Cargando...</p>
+      </div>
+    </div>
+
+    <button class="profile-btn" id="openAdminProfile">
+      Ver Perfil
+    </button>
+
+    <nav class="menu">
+      <a href="index.html">⌂ Inicio</a>
+      <a href="productos.html" class="active">▣ Productos</a>
+      <a href="pedidos.html">
+        🛒 Pedidos
+        <span class="badge" id="sidebarOrders">0</span>
+      </a>
+      <a href="ofertas.html">◇ Ofertas</a>
+      <a href="clientes.html">
+        👥 Clientes
+        <span class="badge" id="sidebarClients">0</span>
+      </a>
+      <a href="estadisticas.html">▥ Estadísticas</a>
+      <a href="inventario.html">✤ Inventario</a>
+      <a href="compras.html">🧾 Compras</a>
+      <a href="configuracion.html">⚙ Configuración</a>
+    </nav>
+
+    <a href="store-super-joven/index.html" class="logout-btn">Salir</a>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="page-header">
+      <div class="title-box">
+        <div class="title-icon">▣</div>
+        <div>
+          <h1>Productos</h1>
+          <p>Gestiona el catálogo de tu tienda</p>
+        </div>
+      </div>
+
+      <button class="primary-btn" id="openAddProduct">
+        + Añadir Producto
+      </button>
+    </header>
+
+    <section class="inventory-summary-grid products-inventory-summary">
+      <article class="inventory-card">
+        <div class="inventory-icon green-bg">▣</div>
+        <div>
+          <p>Total</p>
+          <h2 id="productsInventoryTotal">0</h2>
+        </div>
+      </article>
+
+      <article class="inventory-card">
+        <div class="inventory-icon green-bg">✓</div>
+        <div>
+          <p>Normal</p>
+          <h2 class="green-text" id="productsInventoryNormal">0</h2>
+        </div>
+      </article>
+
+      <article class="inventory-card">
+        <div class="inventory-icon yellow-bg">⚠</div>
+        <div>
+          <p>Bajo</p>
+          <h2 class="yellow-text" id="productsInventoryLow">0</h2>
+        </div>
+      </article>
+
+      <article class="inventory-card">
+        <div class="inventory-icon red-bg">×</div>
+        <div>
+          <p>Crítico</p>
+          <h2 class="red-text" id="productsInventoryCritical">0</h2>
+        </div>
+      </article>
+
+      <article class="inventory-card">
+        <div class="inventory-icon blue-bg">↗</div>
+        <div>
+          <p>Exceso</p>
+          <h2 class="blue-text" id="productsInventoryExcess">0</h2>
+        </div>
+      </article>
+    </section>
+
+    <section class="filter-panel">
+      <div class="search-wide">
+        <span>🔍</span>
+        <input 
+          type="text" 
+          id="productSearch" 
+          placeholder="Buscar productos..."
+        />
+      </div>
+
+      <div class="filter-box">
+        <span>⚱</span>
+        <select id="categoryFilter">
+          <option value="all">Todas las categorías</option>
+        </select>
+      </div>
+
+      <div class="filter-box">
+        <span>↕</span>
+        <select id="stockStatusFilter">
+          <option value="all">Todos los estados de stock</option>
+          <option value="Normal">Normal</option>
+          <option value="Stock Bajo">Stock Bajo</option>
+          <option value="Crítico">Crítico</option>
+          <option value="Exceso">Exceso</option>
+        </select>
+      </div>
+
+      <div class="filter-box product-state-filter">
+        <span>▣</span>
+        <select id="productStateFilter">
+          <option value="all">Todos los estados del producto</option>
+          <option value="activo">Activos</option>
+          <option value="inactivo">Inactivos</option>
+          <option value="destacado">Destacados</option>
+          <option value="oferta">En oferta</option>
+          <option value="proveedor">Con proveedor</option>
+          <option value="sin_proveedor">Sin proveedor</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Lista de Productos (<span id="productsTotal">0</span>)</h2>
+
+      <div class="table-wrapper products-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Stock Actual</th>
+              <th>Nivel</th>
+              <th>Estado de Stock</th>
+              <th>Estados del Producto</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody id="productsTable"></tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <p id="productsCounter">Mostrando 0 de 0 productos</p>
+
+        <div class="pagination">
+          <button id="prevPage">‹</button>
+          <span id="currentPage">1</span>
+          <button id="nextPage">›</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="modal-overlay" id="productModal">
+    <div class="modal product-modal">
+      <button class="close-modal" id="closeProductModal">×</button>
+
+      <h2 id="modalTitle">Añadir Producto</h2>
+      <p class="modal-subtitle">Completa la información del producto</p>
+
+      <form id="productForm">
+
+        <label>
+          Nombre del producto
+          <input type="text" id="productName" required />
+        </label>
+
+        <label>
+          Categoría
+          <select id="productCategory">
+            <option value="">Sin categoría</option>
+          </select>
+        </label>
+
+        <label>
+          Precio
+          <input type="number" id="productPrice" step="0.01" min="0" required />
+        </label>
+
+        <div class="product-stock-settings">
+          <label>
+            Stock actual
+            <input type="number" id="productStock" min="0" required />
+          </label>
+
+          <label>
+            Stock mínimo
+            <input type="number" id="productMinStock" min="0" value="10" required />
+          </label>
+
+          <label>
+            Stock máximo
+            <input type="number" id="productMaxStock" min="1" value="100" required />
+          </label>
+        </div>
+
+        <div class="form-section-title">
+          Estado del producto
+        </div>
+
+        <div class="product-status-grid">
+          <label>
+            Destacado
+            <select id="productFeatured">
+              <option value="false">No</option>
+              <option value="true">Sí</option>
+            </select>
+          </label>
+
+          <label>
+            En oferta
+            <select id="productOffer">
+              <option value="false">No</option>
+              <option value="true">Sí</option>
+            </select>
+          </label>
+
+          <label>
+            Activo para la venta
+            <select id="productStatus">
+              <option value="activo">Sí</option>
+              <option value="inactivo">No</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="secondary-btn" id="cancelProductModal">
+            Cancelar
+          </button>
+          <button type="submit" class="primary-btn">
+            Guardar
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="adminProfileModal">
+    <div class="modal admin-profile-modal">
+      <button class="close-modal" id="closeAdminProfile">×</button>
+
+      <div class="admin-profile-header">
+        <div class="avatar admin-profile-avatar" id="adminProfileAvatar">AD</div>
+
+        <div>
+          <h2 id="adminProfileFullName">Administrador</h2>
+          <p id="adminProfileRole">Administrador</p>
+        </div>
+      </div>
+
+      <p class="modal-subtitle">
+        Información personal de la cuenta que está usando el panel.
+      </p>
+
+      <div class="admin-profile-grid">
+        <label>
+          Nombre
+          <input type="text" id="adminProfileName" disabled>
+        </label>
+
+        <label>
+          Apellido
+          <input type="text" id="adminProfileLastName" disabled>
+        </label>
+
+        <label>
+          Documento
+          <input type="text" id="adminProfileDocument" disabled>
+        </label>
+
+        <label>
+          Correo
+          <input type="email" id="adminProfileEmail" disabled>
+        </label>
+
+        <label>
+          Teléfono
+          <input type="text" id="adminProfilePhone" disabled>
+        </label>
+
+        <label>
+          Género
+          <input type="text" id="adminProfileGender" disabled>
+        </label>
+
+        <label>
+          Barrio
+          <input type="text" id="adminProfileNeighborhood" disabled>
+        </label>
+
+        <label>
+          Rol
+          <input type="text" id="adminProfileRoleInput" disabled>
+        </label>
+
+        <label class="admin-profile-full">
+          Dirección
+          <textarea id="adminProfileAddress" rows="4" disabled></textarea>
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" id="closeAdminProfileBtn">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin-session.js"></script>
+  <script src="productos.js"></script>
+</body>
+</html>

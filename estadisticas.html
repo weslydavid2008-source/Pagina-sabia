@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estadísticas</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="admin-box">
+  <div class="avatar" id="adminAvatar">AD</div>
+
+  <div class="admin-info">
+    <h3 id="adminName">Administrador</h3>
+    <p id="adminEmail">Cargando...</p>
+  </div>
+</div>
+
+<button class="profile-btn" id="openAdminProfile">
+  Ver Perfil
+</button>
+
+    <nav class="menu">
+      <a href="index.html">⌂ Inicio</a>
+      <a href="productos.html">▣ Productos</a>
+      <a href="pedidos.html">
+        🛒 Pedidos
+        <span class="badge" id="sidebarOrders">0</span>
+      </a>
+      <a href="ofertas.html">◇ Ofertas</a>
+      <a href="clientes.html">
+        👥 Clientes
+        <span class="badge" id="sidebarClients">0</span>
+      </a>
+      <a href="estadisticas.html" class="active">▥ Estadísticas</a>
+      <a href="inventario.html">✤ Inventario</a>
+      <a href="compras.html">🧾 Compras</a>
+      <a href="configuracion.html">⚙ Configuración</a>
+    </nav>
+
+    <a href="store-super-joven/index.html" class="logout-btn">Salir</a>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="page-header">
+      <div class="title-box">
+        <div class="title-icon">▥</div>
+        <div>
+          <h1>Estadísticas</h1>
+          <p>Analiza el rendimiento de tu tienda</p>
+        </div>
+      </div>
+
+      <select id="statsRange">
+        <option value="7">Últimos 7 días</option>
+        <option value="30">Últimos 30 días</option>
+        <option value="month">Este mes</option>
+        <option value="year">Este año</option>
+        <option value="all">Todo</option>
+      </select>
+    </header>
+
+    <section class="analytics-summary-grid">
+      <article class="analytics-card">
+        <div>
+          <p>VENTAS TOTALES</p>
+          <h2 id="totalSalesStats">$0.00</h2>
+          <small id="salesGrowthText">Sin datos disponibles</small>
+        </div>
+        <div class="analytics-icon green-bg">$</div>
+      </article>
+
+      <article class="analytics-card">
+        <div>
+          <p>PEDIDOS TOTALES</p>
+          <h2 id="totalOrdersStats">0</h2>
+          <small id="ordersGrowthText">Sin datos disponibles</small>
+        </div>
+        <div class="analytics-icon blue-bg">🛒</div>
+      </article>
+
+      <article class="analytics-card">
+        <div>
+          <p>TICKET PROMEDIO</p>
+          <h2 id="averageTicketStats">$0.00</h2>
+          <small>Promedio por pedido</small>
+        </div>
+        <div class="analytics-icon purple-bg">▦</div>
+      </article>
+
+      <article class="analytics-card">
+        <div>
+          <p>CLIENTES ACTIVOS</p>
+          <h2 id="activeClientsStats">0</h2>
+          <small>Clientes registrados</small>
+        </div>
+        <div class="analytics-icon green-bg">👥</div>
+      </article>
+    </section>
+
+    <section class="analytics-main-grid">
+
+      <article class="panel analytics-large-panel">
+        <div class="panel-header compact">
+          <h2>Ventas por Día</h2>
+          <span class="mini-label" id="salesChartLabel">Últimos 7 días</span>
+        </div>
+
+        <div class="analytics-chart" id="dailySalesChart"></div>
+      </article>
+
+      <article class="panel analytics-side-panel">
+        <h2>Estado de Pedidos</h2>
+
+        <div class="status-chart-box">
+          <div class="donut-placeholder" id="ordersDonut">
+            <span>0</span>
+          </div>
+        </div>
+
+        <div class="status-list" id="ordersStatusList"></div>
+      </article>
+
+    </section>
+
+    <section class="analytics-bottom-grid">
+
+      <article class="panel">
+        <div class="panel-header compact">
+          <h2>Tendencia Mensual</h2>
+          <span class="mini-label">Año actual</span>
+        </div>
+
+        <div class="monthly-chart" id="monthlyTrendChart"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-header compact">
+          <h2>Productos Más Vendidos</h2>
+          <span class="mini-label">Top 5</span>
+        </div>
+
+        <div class="top-products-list" id="topProductsList"></div>
+      </article>
+
+    </section>
+
+  </main>
+  <div class="modal-overlay" id="adminProfileModal">
+  <div class="modal admin-profile-modal">
+    <button class="close-modal" id="closeAdminProfile">×</button>
+
+    <div class="admin-profile-header">
+      <div class="avatar admin-profile-avatar" id="adminProfileAvatar">AD</div>
+
+      <div>
+        <h2 id="adminProfileFullName">Administrador</h2>
+        <p id="adminProfileRole">Administrador</p>
+      </div>
+    </div>
+
+    <p class="modal-subtitle">
+      Información personal de la cuenta que está usando el panel.
+    </p>
+
+    <div class="admin-profile-grid">
+      <label>
+        Nombre
+        <input type="text" id="adminProfileName" disabled>
+      </label>
+
+      <label>
+        Apellido
+        <input type="text" id="adminProfileLastName" disabled>
+      </label>
+
+      <label>
+        Documento
+        <input type="text" id="adminProfileDocument" disabled>
+      </label>
+
+      <label>
+        Correo
+        <input type="email" id="adminProfileEmail" disabled>
+      </label>
+
+      <label>
+        Teléfono
+        <input type="text" id="adminProfilePhone" disabled>
+      </label>
+
+      <label>
+        Género
+        <input type="text" id="adminProfileGender" disabled>
+      </label>
+
+      <label>
+        Barrio
+        <input type="text" id="adminProfileNeighborhood" disabled>
+      </label>
+
+      <label>
+        Rol
+        <input type="text" id="adminProfileRoleInput" disabled>
+      </label>
+
+      <label class="admin-profile-full">
+        Dirección
+        <textarea id="adminProfileAddress" rows="4" disabled></textarea>
+      </label>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="secondary-btn" id="closeAdminProfileBtn">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>
+  <script src="admin-session.js"></script>
+  <script src="estadisticas.js"></script>
+</body>
+</html>

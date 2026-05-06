@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuración</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="admin-box">
+  <div class="avatar" id="adminAvatar">AD</div>
+
+  <div class="admin-info">
+    <h3 id="adminName">Administrador</h3>
+    <p id="adminEmail">Cargando...</p>
+  </div>
+</div>
+
+<button class="profile-btn" id="openAdminProfile">
+  Ver Perfil
+</button>
+
+    <nav class="menu">
+      <a href="index.html">⌂ Inicio</a>
+      <a href="productos.html">▣ Productos</a>
+      <a href="pedidos.html">
+        🛒 Pedidos
+        <span class="badge" id="sidebarOrders">0</span>
+      </a>
+      <a href="ofertas.html">◇ Ofertas</a>
+      <a href="clientes.html">
+        👥 Clientes
+        <span class="badge" id="sidebarClients">0</span>
+      </a>
+      <a href="estadisticas.html">▥ Estadísticas</a>
+      <a href="inventario.html">✤ Inventario</a>
+      <a href="compras.html">🧾 Compras</a>
+      <a href="configuracion.html" class="active">⚙ Configuración</a>
+    </nav>
+
+    <a href="store-super-joven/index.html" class="logout-btn">Salir</a>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="page-header">
+      <div class="title-box">
+        <div class="title-icon">⚙</div>
+        <div>
+          <h1>Configuración</h1>
+          <p>Administra las opciones de tu tienda</p>
+        </div>
+      </div>
+
+      <button class="primary-btn" id="saveSettingsBtn">
+        💾 Guardar Cambios
+      </button>
+    </header>
+
+    <section class="config-tabs">
+      <button class="config-tab active" data-tab="general">⌂ General</button>
+      <button class="config-tab" data-tab="entregas">🚚 Entregas</button>
+      <button class="config-tab" data-tab="notificaciones">🔔 Notificaciones</button>
+      <button class="config-tab" data-tab="apariencia">🎨 Apariencia</button>
+    </section>
+
+    <!-- GENERAL -->
+    <section class="config-content active" id="tab-general">
+      <article class="panel">
+        <h2>⌂ Información de la Tienda</h2>
+        <p class="config-description">Datos básicos de tu negocio</p>
+
+        <div class="config-form-grid two-columns">
+          <label>
+            Nombre de la tienda
+            <input type="text" id="storeName" placeholder="Nombre de la tienda" />
+          </label>
+
+          <label>
+            Teléfono
+            <input type="text" id="storePhone" placeholder="Teléfono" />
+          </label>
+        </div>
+
+        <label class="full-label">
+          Email
+          <input type="email" id="storeEmail" placeholder="correo@tienda.com" />
+        </label>
+
+        <label class="full-label">
+          Dirección
+          <textarea id="storeAddress" rows="3" placeholder="Dirección de la tienda"></textarea>
+        </label>
+      </article>
+
+      <article class="panel">
+        <h2>🕘 Horario de Atención</h2>
+        <p class="config-description">Define el horario de operación de tu tienda</p>
+
+        <div class="config-form-grid two-columns">
+          <label>
+            Hora de apertura
+            <input type="time" id="openingTime" />
+          </label>
+
+          <label>
+            Hora de cierre
+            <input type="time" id="closingTime" />
+          </label>
+        </div>
+      </article>
+    </section>
+
+    <!-- ENTREGAS -->
+    <section class="config-content" id="tab-entregas">
+      <article class="panel">
+        <h2>🚚 Configuración de Entregas</h2>
+        <p class="config-description">Opciones de delivery y pedidos</p>
+
+        <div class="config-form-grid three-columns">
+          <label>
+            Costo de envío ($)
+            <input type="number" id="deliveryCost" min="0" step="0.01" placeholder="0.00" />
+          </label>
+
+          <label>
+            Pedido mínimo ($)
+            <input type="number" id="minimumOrder" min="0" step="0.01" placeholder="0.00" />
+          </label>
+
+          <label>
+            Distancia máxima (km)
+            <input type="number" id="maxDistance" min="0" step="0.1" placeholder="0" />
+          </label>
+        </div>
+
+        <div class="switch-list">
+          <div class="switch-row">
+            <div>
+              <h3>Envío gratis</h3>
+              <p>Ofrecer envío gratis en pedidos mayores a cierto monto</p>
+            </div>
+
+            <button class="config-switch" id="freeDeliverySwitch" type="button"></button>
+          </div>
+
+          <div class="switch-row">
+            <div>
+              <h3>Recogida en tienda</h3>
+              <p>Permitir que los clientes recojan sus pedidos</p>
+            </div>
+
+            <button class="config-switch" id="pickupSwitch" type="button"></button>
+          </div>
+
+          <div class="switch-row">
+            <div>
+              <h3>Programar entregas</h3>
+              <p>Permitir que los clientes programen su entrega</p>
+            </div>
+
+            <button class="config-switch" id="scheduledDeliverySwitch" type="button"></button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- NOTIFICACIONES -->
+    <section class="config-content" id="tab-notificaciones">
+      <article class="panel">
+        <h2>🔔 Notificaciones de la Tienda</h2>
+        <p class="config-description">Configura qué notificaciones deseas recibir</p>
+
+        <div class="switch-list">
+          <div class="switch-row">
+            <div>
+              <h3>Nuevos pedidos</h3>
+              <p>Recibir notificación cuando llegue un nuevo pedido</p>
+            </div>
+
+            <button class="config-switch" id="newOrdersSwitch" type="button"></button>
+          </div>
+
+          <div class="switch-row">
+            <div>
+              <h3>Stock bajo</h3>
+              <p>Alerta cuando un producto tiene poco inventario</p>
+            </div>
+
+            <button class="config-switch" id="lowStockSwitch" type="button"></button>
+          </div>
+
+          <div class="switch-row">
+            <div>
+              <h3>Nuevos clientes</h3>
+              <p>Notificar cuando se registre un nuevo cliente</p>
+            </div>
+
+            <button class="config-switch" id="newClientsSwitch" type="button"></button>
+          </div>
+
+          <div class="switch-row">
+            <div>
+              <h3>Reporte diario</h3>
+              <p>Recibir resumen de ventas cada día</p>
+            </div>
+
+            <button class="config-switch" id="dailyReportSwitch" type="button"></button>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Canales de Notificación</h2>
+        <p class="config-description">Elige cómo quieres recibir las notificaciones</p>
+
+        <div class="switch-list">
+          <div class="switch-row">
+            <div>
+              <h3>Email</h3>
+              <p>Recibir notificaciones por correo electrónico</p>
+            </div>
+
+            <button class="config-switch" id="emailChannelSwitch" type="button"></button>
+          </div>
+
+          <div class="switch-row">
+            <div>
+              <h3>Push del navegador</h3>
+              <p>Recibir notificaciones push en el navegador</p>
+            </div>
+
+            <button class="config-switch" id="pushChannelSwitch" type="button"></button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- APARIENCIA -->
+    <section class="config-content" id="tab-apariencia">
+      <article class="panel">
+        <h2>🎨 Apariencia</h2>
+        <p class="config-description">Personaliza el aspecto del panel de administración</p>
+
+        <div class="appearance-options">
+          <label>
+            Tema
+            <select id="themeSelect">
+              <option value="light">Claro</option>
+              <option value="dark">Oscuro</option>
+            </select>
+          </label>
+
+          <label>
+            Color principal
+            <select id="mainColorSelect">
+              <option value="green">Verde</option>
+              <option value="blue">Azul</option>
+              <option value="purple">Morado</option>
+              <option value="red">Rojo</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="switch-row compact-switch">
+          <div>
+            <h3>Modo compacto</h3>
+            <p>Reducir el espaciado para mostrar más información</p>
+          </div>
+
+          <button class="config-switch" id="compactModeSwitch" type="button"></button>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>🛡 Seguridad</h2>
+        <p class="config-description">Opciones de seguridad de la cuenta</p>
+
+        <div class="security-list">
+          <div class="security-row">
+            <div>
+              <h3>Autenticación de dos factores</h3>
+              <p>Añade una capa extra de seguridad a tu cuenta</p>
+            </div>
+
+            <button class="secondary-btn" data-security="twoFactor">
+              Configurar
+            </button>
+          </div>
+
+          <div class="security-row">
+            <div>
+              <h3>Cambiar contraseña</h3>
+              <p>Actualiza tu contraseña regularmente</p>
+            </div>
+
+            <button class="secondary-btn" data-security="password">
+              Cambiar
+            </button>
+          </div>
+
+          <div class="security-row">
+            <div>
+              <h3>Sesiones activas</h3>
+              <p>Gestiona los dispositivos conectados</p>
+            </div>
+
+            <button class="secondary-btn" data-security="sessions">
+              Ver
+            </button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+  </main>
+
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+      <button class="close-modal" id="closeSettingsModal">×</button>
+      <h2 id="settingsModalTitle">Configuración</h2>
+      <p class="modal-subtitle" id="settingsModalText">
+        Acción realizada.
+      </p>
+
+      <div class="modal-actions">
+        <button class="primary-btn" id="acceptSettingsModal">
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay" id="adminProfileModal">
+  <div class="modal admin-profile-modal">
+    <button class="close-modal" id="closeAdminProfile">×</button>
+
+    <div class="admin-profile-header">
+      <div class="avatar admin-profile-avatar" id="adminProfileAvatar">AD</div>
+
+      <div>
+        <h2 id="adminProfileFullName">Administrador</h2>
+        <p id="adminProfileRole">Administrador</p>
+      </div>
+    </div>
+
+    <p class="modal-subtitle">
+      Información personal de la cuenta que está usando el panel.
+    </p>
+
+    <div class="admin-profile-grid">
+      <label>
+        Nombre
+        <input type="text" id="adminProfileName" disabled>
+      </label>
+
+      <label>
+        Apellido
+        <input type="text" id="adminProfileLastName" disabled>
+      </label>
+
+      <label>
+        Documento
+        <input type="text" id="adminProfileDocument" disabled>
+      </label>
+
+      <label>
+        Correo
+        <input type="email" id="adminProfileEmail" disabled>
+      </label>
+
+      <label>
+        Teléfono
+        <input type="text" id="adminProfilePhone" disabled>
+      </label>
+
+      <label>
+        Género
+        <input type="text" id="adminProfileGender" disabled>
+      </label>
+
+      <label>
+        Barrio
+        <input type="text" id="adminProfileNeighborhood" disabled>
+      </label>
+
+      <label>
+        Rol
+        <input type="text" id="adminProfileRoleInput" disabled>
+      </label>
+
+      <label class="admin-profile-full">
+        Dirección
+        <textarea id="adminProfileAddress" rows="4" disabled></textarea>
+      </label>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="secondary-btn" id="closeAdminProfileBtn">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>
+  <script src="admin-session.js"></script>
+  <script src="configuracion.js"></script>
+</body>
+</html>

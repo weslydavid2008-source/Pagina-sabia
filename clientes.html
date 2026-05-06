@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clientes</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="admin-box">
+      <div class="avatar" id="adminAvatar">AD</div>
+
+      <div class="admin-info">
+        <h3 id="adminName">Administrador</h3>
+        <p id="adminEmail">Cargando...</p>
+      </div>
+    </div>
+
+  <button class="profile-btn" id="openAdminProfile">
+    Ver Perfil
+  </button>
+
+    <nav class="menu">
+      <a href="index.html">⌂ Inicio</a>
+      <a href="productos.html">▣ Productos</a>
+      <a href="pedidos.html">
+        🛒 Pedidos
+        <span class="badge" id="sidebarOrders">0</span>
+      </a>
+      <a href="ofertas.html">◇ Ofertas</a>
+      <a href="clientes.html" class="active">
+        👥 Clientes
+        <span class="badge" id="sidebarClients">0</span>
+      </a>
+      <a href="estadisticas.html">▥ Estadísticas</a>
+      <a href="inventario.html">✤ Inventario</a>
+      <a href="compras.html">🧾 Compras</a>
+      <a href="configuracion.html">⚙ Configuración</a>
+    </nav>
+
+    <a href="store-super-joven/index.html" class="logout-btn">Salir</a>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="page-header">
+      <div class="title-box">
+        <div class="title-icon">👥</div>
+        <div>
+          <h1>Clientes</h1>
+          <p>Gestiona tu base de clientes</p>
+        </div>
+      </div>
+
+      <button class="primary-btn" id="openClientModal">
+        + Añadir Cliente
+      </button>
+    </header>
+
+    <section class="clients-summary-grid">
+      <article class="client-summary-card">
+        <div class="client-summary-icon green-bg">👥</div>
+        <div>
+          <p>Total Clientes</p>
+          <h2 id="totalClients">0</h2>
+        </div>
+      </article>
+
+      <article class="client-summary-card">
+        <div class="client-summary-icon green-bg">$</div>
+        <div>
+          <p>Total Ventas</p>
+          <h2 id="totalClientSales">$0.00</h2>
+        </div>
+      </article>
+
+      <article class="client-summary-card">
+        <div class="client-summary-icon blue-bg">▣</div>
+        <div>
+          <p>Total Pedidos</p>
+          <h2 id="totalClientOrders">0</h2>
+        </div>
+      </article>
+
+      <article class="client-summary-card">
+        <div class="client-summary-icon purple-bg">▦</div>
+        <div>
+          <p>Nuevos este mes</p>
+          <h2 id="newClientsThisMonth">0</h2>
+        </div>
+      </article>
+    </section>
+
+    <section class="filter-panel">
+      <div class="search-wide">
+        <span>🔍</span>
+        <input 
+          type="text" 
+          id="clientSearch" 
+          placeholder="Buscar por nombre, apellido, documento, correo o teléfono..."
+        />
+      </div>
+    </section>
+
+    <section class="clients-grid" id="clientsGrid"></section>
+
+  </main>
+
+  <div class="modal-overlay" id="clientModal">
+    <div class="modal client-form-modal">
+      <button class="close-modal" id="closeClientModal">×</button>
+
+      <h2 id="clientModalTitle">Añadir Cliente</h2>
+      <p class="modal-subtitle">Completa la información del cliente</p>
+
+      <form id="clientForm">
+
+        <div class="client-form-grid">
+          <label>
+            Nombre
+            <input type="text" id="clientName" required />
+          </label>
+
+          <label>
+            Apellido
+            <input type="text" id="clientLastName" />
+          </label>
+
+          <label>
+            Documento
+            <input type="text" id="clientDocument" />
+          </label>
+
+          <label>
+            Correo
+            <input type="email" id="clientEmail" />
+          </label>
+
+          <label>
+            Teléfono
+            <input type="text" id="clientPhone" />
+          </label>
+
+          <label>
+            Género
+            <select id="clientGender">
+              <option value="">Sin género</option>
+            </select>
+          </label>
+
+          <label>
+            Barrio
+            <select id="clientNeighborhood">
+              <option value="">Sin barrio</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          Dirección
+          <textarea id="clientAddress" rows="3"></textarea>
+        </label>
+
+        <div class="modal-actions">
+          <button type="button" class="secondary-btn" id="cancelClientModal">
+            Cancelar
+          </button>
+          <button type="submit" class="primary-btn">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="clientDetailModal">
+    <div class="modal client-detail-modal">
+      <button class="close-modal bordered-close" id="closeClientDetailModal">×</button>
+
+      <h2>Detalle del Cliente</h2>
+      <p class="modal-subtitle">Información completa del cliente</p>
+
+      <div class="client-detail-header">
+        <div class="client-detail-avatar" id="detailAvatar">CL</div>
+
+        <div>
+          <h3 id="detailName">Cliente</h3>
+          <p id="detailDocument">Documento</p>
+          <p id="detailEmail">email@correo.com</p>
+          <p id="detailPhone">000-0000</p>
+          <p id="detailAddress">Dirección</p>
+          <p id="detailGender">Género</p>
+          <p id="detailNeighborhood">Barrio</p>
+        </div>
+      </div>
+
+      <div class="client-detail-stats">
+        <div>
+          <h3 id="detailOrdersCount">0</h3>
+          <p>Pedidos</p>
+        </div>
+
+        <div>
+          <h3 class="green-text" id="detailTotalSpent">$0.00</h3>
+          <p>Total Gastado</p>
+        </div>
+
+        <div>
+          <h3 id="detailAverage">$0.00</h3>
+          <p>Promedio</p>
+        </div>
+      </div>
+
+      <p class="client-since" id="detailClientSince">
+        📅 Cliente desde: -
+      </p>
+    </div>
+  </div>
+  <div class="modal-overlay" id="adminProfileModal">
+  <div class="modal admin-profile-modal">
+    <button class="close-modal" id="closeAdminProfile">×</button>
+
+    <div class="admin-profile-header">
+      <div class="avatar admin-profile-avatar" id="adminProfileAvatar">AD</div>
+
+      <div>
+        <h2 id="adminProfileFullName">Administrador</h2>
+        <p id="adminProfileRole">Administrador</p>
+      </div>
+    </div>
+
+    <p class="modal-subtitle">
+      Información personal de la cuenta que está usando el panel.
+    </p>
+
+    <div class="admin-profile-grid">
+      <label>
+        Nombre
+        <input type="text" id="adminProfileName" disabled>
+      </label>
+
+      <label>
+        Apellido
+        <input type="text" id="adminProfileLastName" disabled>
+      </label>
+
+      <label>
+        Documento
+        <input type="text" id="adminProfileDocument" disabled>
+      </label>
+
+      <label>
+        Correo
+        <input type="email" id="adminProfileEmail" disabled>
+      </label>
+
+      <label>
+        Teléfono
+        <input type="text" id="adminProfilePhone" disabled>
+      </label>
+
+      <label>
+        Género
+        <input type="text" id="adminProfileGender" disabled>
+      </label>
+
+      <label>
+        Barrio
+        <input type="text" id="adminProfileNeighborhood" disabled>
+      </label>
+
+      <label>
+        Rol
+        <input type="text" id="adminProfileRoleInput" disabled>
+      </label>
+
+      <label class="admin-profile-full">
+        Dirección
+        <textarea id="adminProfileAddress" rows="4" disabled></textarea>
+      </label>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="secondary-btn" id="closeAdminProfileBtn">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>
+  <script src="admin-session.js"></script>
+  <script src="clientes.js"></script>
+</body>
+</html>

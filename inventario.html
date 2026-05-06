@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventario</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="admin-box">
+  <div class="avatar" id="adminAvatar">AD</div>
+
+  <div class="admin-info">
+    <h3 id="adminName">Administrador</h3>
+    <p id="adminEmail">Cargando...</p>
+  </div>
+</div>
+
+<button class="profile-btn" id="openAdminProfile">
+  Ver Perfil
+</button>
+
+    <button class="profile-btn">Ver Perfil</button>
+
+    <nav class="menu">
+      <a href="index.html">⌂ Inicio</a>
+      <a href="productos.html">▣ Productos</a>
+      <a href="pedidos.html">
+        🛒 Pedidos
+        <span class="badge" id="sidebarOrders">0</span>
+      </a>
+      <a href="ofertas.html">◇ Ofertas</a>
+      <a href="clientes.html">
+        👥 Clientes
+        <span class="badge" id="sidebarClients">0</span>
+      </a>
+      <a href="estadisticas.html">▥ Estadísticas</a>
+      <a href="inventario.html" class="active">✤ Inventario</a>
+      <a href="compras.html">🧾 Compras</a>
+      <a href="configuracion.html">⚙ Configuración</a>
+    </nav>
+
+    <a href="store-super-joven/index.html" class="logout-btn">Salir</a>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="page-header">
+      <div class="title-box">
+        <div class="title-icon">✤</div>
+        <div>
+          <h1>Inventario</h1>
+          <p>Control de stock de productos</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="inventory-summary-grid">
+      <article class="inventory-card">
+        <div class="inventory-icon green-bg">▣</div>
+        <div>
+          <p>Total</p>
+          <h2 id="inventoryTotal">0</h2>
+        </div>
+      </article>
+
+      <article class="inventory-card">
+        <div class="inventory-icon green-bg">✓</div>
+        <div>
+          <p>Normal</p>
+          <h2 class="green-text" id="inventoryNormal">0</h2>
+        </div>
+      </article>
+
+      <article class="inventory-card">
+        <div class="inventory-icon yellow-bg">⚠</div>
+        <div>
+          <p>Bajo</p>
+          <h2 class="yellow-text" id="inventoryLow">0</h2>
+        </div>
+      </article>
+
+      <article class="inventory-card">
+        <div class="inventory-icon red-bg">×</div>
+        <div>
+          <p>Crítico</p>
+          <h2 class="red-text" id="inventoryCritical">0</h2>
+        </div>
+      </article>
+
+      <article class="inventory-card">
+        <div class="inventory-icon blue-bg">↗</div>
+        <div>
+          <p>Exceso</p>
+          <h2 class="blue-text" id="inventoryExcess">0</h2>
+        </div>
+      </article>
+    </section>
+
+    <section class="inventory-alert" id="inventoryAlert">
+      <strong>⚠ Alerta de Inventario</strong>
+      <p id="inventoryAlertText">No hay alertas de inventario.</p>
+    </section>
+
+    <section class="filter-panel">
+      <div class="search-wide">
+        <span>🔍</span>
+        <input 
+          type="text" 
+          id="inventorySearch" 
+          placeholder="Buscar producto..."
+        />
+      </div>
+
+      <div class="filter-box">
+        <span>⚱</span>
+        <select id="inventoryStatusFilter">
+          <option value="all">Todos los estados</option>
+          <option value="Normal">Normal</option>
+          <option value="Stock Bajo">Stock Bajo</option>
+          <option value="Crítico">Crítico</option>
+          <option value="Exceso">Exceso</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Control de Stock (<span id="inventoryCountLabel">0</span>)</h2>
+
+      <div class="table-wrapper products-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Stock Actual</th>
+              <th>Nivel</th>
+              <th>Estado</th>
+              <th>Último Restock</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody id="inventoryTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="modal-overlay" id="stockModal">
+    <div class="modal stock-modal">
+      <button class="close-modal" id="closeStockModal">×</button>
+
+      <h2>Ajustar Stock</h2>
+      <p class="modal-subtitle" id="stockModalSubtitle">
+        Ajusta el inventario del producto
+      </p>
+
+      <div class="stock-current-box">
+        <div>
+          <p>Stock actual:</p>
+          <h3 id="currentStockValue">0</h3>
+        </div>
+
+        <div class="stock-minmax">
+          <span>Mínimo: <strong id="modalMinStock">0</strong></span>
+          <span>Máximo: <strong id="modalMaxStock">0</strong></span>
+        </div>
+      </div>
+
+      <form id="stockForm">
+        <div>
+          <p class="form-label">Tipo de ajuste</p>
+
+          <div class="stock-adjust-type">
+            <button type="button" class="adjust-type-btn active" id="addStockBtn">
+              + Añadir
+            </button>
+
+            <button type="button" class="adjust-type-btn" id="removeStockBtn">
+              − Retirar
+            </button>
+          </div>
+        </div>
+
+        <label>
+          Cantidad
+          <input 
+            type="number" 
+            id="stockAmount" 
+            min="1" 
+            placeholder="Ingresa la cantidad" 
+            required
+          />
+        </label>
+
+        <div class="modal-actions">
+          <button type="button" class="secondary-btn" id="cancelStockModal">
+            Cancelar
+          </button>
+          <button type="submit" class="primary-btn">
+            Confirmar Ajuste
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-overlay" id="adminProfileModal">
+  <div class="modal admin-profile-modal">
+    <button class="close-modal" id="closeAdminProfile">×</button>
+
+    <div class="admin-profile-header">
+      <div class="avatar admin-profile-avatar" id="adminProfileAvatar">AD</div>
+
+      <div>
+        <h2 id="adminProfileFullName">Administrador</h2>
+        <p id="adminProfileRole">Administrador</p>
+      </div>
+    </div>
+
+    <p class="modal-subtitle">
+      Información personal de la cuenta que está usando el panel.
+    </p>
+
+    <div class="admin-profile-grid">
+      <label>
+        Nombre
+        <input type="text" id="adminProfileName" disabled>
+      </label>
+
+      <label>
+        Apellido
+        <input type="text" id="adminProfileLastName" disabled>
+      </label>
+
+      <label>
+        Documento
+        <input type="text" id="adminProfileDocument" disabled>
+      </label>
+
+      <label>
+        Correo
+        <input type="email" id="adminProfileEmail" disabled>
+      </label>
+
+      <label>
+        Teléfono
+        <input type="text" id="adminProfilePhone" disabled>
+      </label>
+
+      <label>
+        Género
+        <input type="text" id="adminProfileGender" disabled>
+      </label>
+
+      <label>
+        Barrio
+        <input type="text" id="adminProfileNeighborhood" disabled>
+      </label>
+
+      <label>
+        Rol
+        <input type="text" id="adminProfileRoleInput" disabled>
+      </label>
+
+      <label class="admin-profile-full">
+        Dirección
+        <textarea id="adminProfileAddress" rows="4" disabled></textarea>
+      </label>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="secondary-btn" id="closeAdminProfileBtn">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>
+  <script src="admin-session.js"></script>
+  <script src="inventario.js"></script>
+</body>
+</html>
